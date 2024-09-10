@@ -1,0 +1,1922 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>WDM SE Tooling</title>
+  <style>
+    html {
+      height: 100%;
+      width: 100%;
+      font-family: Arial, sans-serif;
+    }
+
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #D1E9F6;
+      color: #333;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .button-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+
+    }
+
+    .sliderName-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-left: -8px;
+      margin-bottom: 10px;
+      padding: 10px;
+    }
+
+    .tabelButton-container {
+      display: inline-block;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 0px;
+    }
+
+    .scoresTable {
+      border-collapse: collapse;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      font-size: 0.9em;
+      font-family: sans-serif;
+      min-width: 400px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .scoresTable thead tr {
+      background-color: #009879;
+      color: #ffffff;
+      text-align: left;
+    }
+
+    .scoresTable th,
+    .scoresTable td {
+      padding: 12px 15px;
+    }
+
+    .scoresTable tbody tr {
+      border-bottom: 1px solid #dddddd;
+    }
+
+    .scoresTable tbody tr:nth-of-type(even) {
+      background-color: #f3f3f3;
+    }
+
+    .scoresTable tbody tr:last-of-type {
+      border-bottom: 2px solid #009879;
+    }
+
+    .sliderValueWeergave {
+      background: white;
+      width: 30px;
+      height: 25px;
+      margin: 10px 10px;
+      padding: 5px;
+      text-align: center;
+      line-height: 25px;
+      border-radius: 15px;
+      border: 1px solid #ddd;
+      box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.15);
+      font-weight: bold;
+      font-size: 0.9rem;
+      color: #000000;
+
+
+    }
+
+    .sum {
+      background: white;
+      width: 50px;
+      height: 25px;
+      margin: 10px 10px;
+      padding: 5px;
+      text-align: center;
+      line-height: 25px;
+      border-radius: 15px;
+      border: 1px solid #ddd;
+      box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.15);
+      font-weight: bold;
+      font-size: 1.1rem;
+      color: #000000;
+    }
+
+    .scoreTotalLevvr,
+    .scoreTotalR6,
+    .scoreTotalR5 {
+      background: linear-gradient(135deg, #add8e6 0%, #87ceeb 50%, #4682b4 100%);
+      width: 80px;
+      height: 35px;
+      margin: 0px auto;
+
+      text-align: center;
+      line-height: 35px;
+      border-radius: 25px;
+      border: 1px solid #1e90ff;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #ffffff;
+      text-shadow: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .textTotalLevvr,
+    .textTotalR6,
+    .textTotalR5 {
+      display: block;
+      /* Makes sure the text and image are in a block */
+      margin-bottom: 5px;
+      /* Adds some space between text and score */
+      text-align: center;
+      /* Centers the text and image */
+    }
+
+    /*      .scoreTotalLevvr::before, .scoreTotalR6::before, .scoreTotalR5::before {
+          content: "";
+          position: absolute;
+          top: -50%;
+          left: -50%;
+          width: 200%;
+          height: 200%;
+          background: radial-gradient(circle at center, rgba(255, 255, 255, 0.3), transparent);
+          transition: transform 0.5s ease;
+          transform: scale(0);
+          z-index: 0;
+      }
+
+      .scoreTotalLevvr:hover::before, .scoreTotalR6:hover::before, .scoreTotalR5:hover::before {
+          transform: scale(1);
+      }
+
+      .scoreTotalLevvr:hover, .scoreTotalR6:hover, .scoreTotalR5:hover {
+          transform: translateY(-4px);
+          box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.3);
+          color: #fffff0;
+      }
+
+      .scoreTotalLevvr span, .scoreTotalR6 span, .scoreTotalR5 span {
+          position: relative;
+          z-index: 1;
+      } */
+
+
+
+
+    .scoreTotalLevvrWin,
+    .scoreTotalR6Win,
+    .scoreTotalR5Win {
+      background: linear-gradient(135deg, #90ee90 0%, #66cdaa 50%, #2e8b57 100%);
+      width: 80px;
+      height: 35px;
+      margin: 10px auto;
+      text-align: center;
+      line-height: 35px;
+      border-radius: 25px;
+      border: 1px solid #3cb371;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #ffffff;
+      text-shadow: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /*      .scoreTotalLevvrWin::before, .scoreTotalR6Win::before, .scoreTotalR5Win::before {
+          content: "";
+          position: absolute;
+          top: -50%;
+          left: -50%;
+          width: 200%;
+          height: 200%;
+          background: radial-gradient(circle at center, rgba(255, 255, 255, 0.3), transparent);
+          transition: transform 0.5s ease;
+          transform: scale(0);
+          z-index: 0;
+      }
+
+      .scoreTotalLevvrWin:hover::before, .scoreTotalR6Win:hover::before, .scoreTotalR5Win:hover::before {
+          transform: scale(1);
+      }
+
+      .scoreTotalLevvrWin:hover, .scoreTotalR6Win:hover, .scoreTotalR5Win:hover {
+          transform: translateY(-4px);
+          box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.3);
+          color: #f0fff0;
+      }
+
+      .scoreTotalLevvrWin span, .scoreTotalR6Win span, .scoreTotalR5Win span {
+          position: relative;
+          z-index: 1;
+      } */
+
+
+
+    .horizontal-rule {
+      margin: 20px 0px;
+    }
+
+    #resultSection {
+      position: -webkit-sticky;
+      /* For Safari */
+      position: sticky;
+      top: 0;
+      /* You can adjust this value as needed */
+      background-color: #D1E9F6;
+      border: 0px solid #ddd;
+      z-index: 10;
+      width: 100%;
+    }
+
+    /* Media query for small screens */
+    @media (max-width: 768px) {
+      #resultSection {
+        padding: 0.5em 0.5em;
+        /* Reduce padding on mobile devices */
+        font-size: 0.9em;
+        /* Adjust font size for readability */
+        top: 0;
+        /* Adjust top position if necessary */
+      }
+    }
+
+
+
+    #sliderSection {
+      text-align: center;
+      font-weight: normal;
+      font-size: larger;
+      font-family: Arial;
+    }
+
+    /*   .result_reset {
+        display: flex;
+        flex-direction: column;
+
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 200px;
+        
+      }
+*/
+
+
+    .result_reset {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      /* Adjust the gap as needed */
+      margin-top: 15px;
+      margin-left: auto;
+      margin-right: auto;
+      font-family: 'Arial';
+      font-size: 1em;
+      font-weight: 600;
+    }
+
+    .sumtotalcontainer,
+    .resetButton-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .resetButton-container {
+      display: flex;
+      flex-direction: column;
+      padding-left: 0px;
+      margin-right: 20px;
+
+    }
+
+    .resultsContainer {
+      display: inline-block;
+      ;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 10px;
+      align-items: center
+    }
+
+
+
+    .resultsHeader {
+      display: inline-block;
+      vertical-align: middle;
+      /* Aligns the blocks vertically */
+      text-align: center;
+      /* Centers content horizontally */
+      font-family: 'Arial';
+      font-weight: 600;
+      font-size: 1em;
+      margin: 10px 20px;
+      /* Adds spacing between each result block */
+    }
+
+    .resultsHeader p {
+      margin-left: -10px;
+    }
+
+    .resultsHeader div {
+      margin: 5px 0 0 0;
+      /* Adds spacing between title and result */
+    }
+
+    .tooltip {
+      position: relative;
+      margin-left: -5px;
+      margin-bottom: 8px;
+      display: inline-block;
+      margin-right: -5px;
+      cursor: pointer;
+      font-size: 16px;
+      color: black;
+    }
+
+    .tooltipRun {
+      position: relative;
+      margin-left: 5px;
+      margin-bottom: 8px;
+      margin-top: -8px;
+      display: inline-block;
+      margin-right: -5px;
+      cursor: pointer;
+      font-size: 16px;
+      color: red;
+    }
+
+    #sumWarning {
+      display: none;
+      visibility: visible;
+      width: 60px;
+      background-color: #3e1047;
+      color: #bc2bd9;
+      font-weight: normal;
+      text-align: center;
+      border-radius: 5px;
+      padding: 5px;
+      position: absolute;
+      z-index: 15;
+      bottom: 40px;
+      left: 50%;
+      margin-left: -35px;
+      opacity: 1;
+    }
+
+    .tooltiptext {
+      visibility: hidden;
+      width: 200px;
+      background-color: lightgray;
+      color: black;
+      font-weight: normal;
+      text-align: center;
+      border-radius: 5px;
+      padding: 5px;
+      position: absolute;
+      z-index: 15;
+      bottom: 150%;
+      /* Position the tooltip above the text */
+      left: 50%;
+      margin-left: -105px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .tooltiptext::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      /* Bottom of the tooltip */
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: #555 transparent transparent transparent;
+      /* Arrow pointing down */
+    }
+
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+      background-color: rgba(250, 250, 250, 0.95);
+      /* 50% transparent light gray */
+
+    }
+
+    .tooltipRun:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+      background-color: rgba(250, 250, 250, 0.95);
+      /* 50% transparent light gray */
+
+    }
+
+    .slider {
+      -webkit-appearance: none;
+      width: 30%;
+      height: 10px;
+      border-radius: 5px;
+      background: #d3d3d3;
+      outline: none;
+      opacity: 0.7;
+      -webkit-transition: .2s;
+      transition: opacity .2s;
+    }
+
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #09ADED;
+      cursor: pointer;
+    }
+
+    .slider:hover {
+      opacity: 1;
+    }
+
+    .slider::-moz-range-thumb {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background: #04AA6D;
+      cursor: pointer;
+    }
+
+    .slider-container {
+      margin: 5px 5px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      display: inline-block;
+      width: 270px;
+    }
+
+
+
+    .button-87 {
+      background-color: #87ceeb;
+      background-size: 200% auto;
+      border: 0px solid grey;
+      border-radius: 30px;
+      box-shadow: grey 1.5px 1.5px 0 0;
+      color: white;
+      cursor: pointer;
+      display: inline-block;
+      font-weight: 600;
+      font-size: 15px;
+      padding: 0 10px;
+      line-height: 20px;
+      text-align: center;
+      text-decoration: none;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+    }
+
+    .button-87:hover {
+      background-color: #60ceeb;
+    }
+
+    .button-87:active {
+      box-shadow: grey 1px 1px 0 0;
+      transform: translate(0.5px, 0.5px);
+    }
+
+
+    #resetButtonID {
+      display: inline-block;
+      outline: 0;
+      appearance: none;
+      padding: 0px 12px;
+      border-radius: 4px;
+      text-decoration: none;
+      cursor: pointer;
+      background-color: rgb(249, 251, 250);
+      border: 1px solid rgb(137, 151, 155);
+      box-shadow: rgb(6 22 33 / 30%) 0px 1px 2px;
+      color: rgb(61, 79, 88);
+      font-size: 14px;
+      font-weight: 400;
+      height: 25px;
+      transition: all 150ms ease-in-out 0s;
+
+      :hover {
+        color: rgb(61, 79, 88);
+        background-color: rgb(255, 255, 255);
+        border: 1px solid rgb(93, 108, 116);
+        box-shadow: rgb(0 0 0 / 30%) 0px 4px 4px, rgb(231 238 236) 0px 0px 0px 3px;
+      }
+
+    }
+
+    #resetButtonID:focus {}
+
+    #resetButtonID:hover {
+      border: 1px solid rgb(137, 151, 155);
+      transform: translateY(0px);
+    }
+
+    #resetButtonID:active {
+      transform: translateY(2px);
+    }
+
+    #runButtonID {
+      display: inline-block;
+      outline: 0;
+      appearance: none;
+      padding: 0px 12px;
+      border-radius: 4px;
+      text-decoration: none;
+      cursor: pointer;
+      background-color: #4CBB17;
+      border: 1px solid rgb(137, 151, 155);
+      box-shadow: rgb(6 22 33 / 30%) 0px 1px 2px;
+      color: #ECFFDC;
+      font-size: 14px;
+      font-weight: 400;
+      height: 25px;
+      transition: all 150ms ease-in-out 0s;
+
+      :hover {
+        color: rgb(61, 79, 88);
+        background-color: rgb(255, 255, 255);
+        border: 1px solid rgb(93, 108, 116);
+        box-shadow: rgb(0 0 0 / 30%) 0px 4px 4px, rgb(231 238 236) 0px 0px 0px 3px;
+      }
+
+    }
+
+    #runButtonID:focus {}
+
+    #runButtonID:hover {
+      border: 1px solid rgb(137, 151, 155);
+      transform: translateY(0px);
+      background-color: #008000;
+      color: white;
+    }
+
+    #runButtonID:active {
+      transform: translateY(2px);
+    }
+
+
+    .runButton-container {
+      margin-left: 10px;
+      display: flex;
+      align-items: center;
+    }
+
+
+    /*tabelsectie inklappen*/
+    #tableSection {
+      display: none;
+    }
+
+
+    #toggleButton {
+      align-items: center;
+      background-color: #FFFFFF;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: .25rem;
+      box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+      box-sizing: border-box;
+      color: rgba(0, 0, 0, 0.85);
+      cursor: pointer;
+      display: inline-flex;
+      font-family: system-ui, -apple-system, system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 30px;
+      font-weight: 600;
+      justify-content: center;
+      line-height: 1;
+      margin: 0;
+      min-height: 3rem;
+      padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+      position: relative;
+      text-decoration: none;
+      transition: all 250ms;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+      vertical-align: baseline;
+      width: 30px;
+      height: 30px;
+    }
+
+    #toggleButton:hover,
+    #toggleButton:focus {
+      border-color: rgba(0, 0, 0, 0.15);
+      box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+      color: rgba(0, 0, 0, 0.65);
+    }
+
+    #toggleButton:hover {
+      transform: translateY(-1px);
+    }
+
+    #toggleButton:active {
+      background-color: #F0F0F1;
+      border-color: rgba(0, 0, 0, 0.15);
+      box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+      color: rgba(0, 0, 0, 0.65);
+      transform: translateY(0);
+    }
+
+    .logo-container {
+      display: flex;
+      /* Align children (logo and button) in a row */
+      justify-content: space-between;
+      /* Distribute space between the logo and button */
+      align-items: center;
+      /* Center the items vertically within the container */
+      width: 100%;
+      /* Make the container full-width */
+      position: relative;
+      /* Position the container relative to the page */
+      margin: 20px auto;
+    }
+
+    .logoImageDBG {
+      margin: 20px auto;
+      /* Center the logo within its container */
+      position: absolute;
+      /* Allow precise positioning */
+      left: 100%;
+      /* Move to the center of the container */
+      transform: translateX(-100%);
+      /* Center the logo exactly at the middle */
+      margin-left: auto;
+    }
+
+    .logoImageLevvr {
+      margin: 0px auto;
+      /* Center the logo within its container */
+      position: absolute;
+      /* Allow precise positioning */
+      left: 35%;
+      /* Move to the center of the container */
+      transform: translateX(0%);
+      /* Center the logo exactly at the middle */
+      margin-left: auto;
+    }
+
+    .logoImageRelatics {
+      margin: 0px auto;
+      /* Center the logo within its container */
+      position: absolute;
+      /* Allow precise positioning */
+      left: 60%;
+      /* Move to the center of the container */
+      transform: translateX(0%);
+      /* Center the logo exactly at the middle */
+      margin-left: auto;
+    }
+
+    .saveButton-container {
+      margin-right: auto;
+      /* Push the button to the right */
+    }
+
+    #saveButtonID {
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+
+    }
+
+    #saveButtonID img {
+      width: 40px;
+      /* Adjust the size of the image */
+      height: auto;
+
+    }
+
+    @media print {
+
+      /* Hide the button when printing */
+      #saveButtonID,
+      #toggleButton,
+      .button-container,
+      .result_reset {
+        display: none;
+      }
+
+      /* Style adjustments for print */
+      body {
+        font-size: 12pt;
+      }
+
+      * {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      #tableSection {
+        display: block;
+        /* Make the hidden section visible when printing */
+      }
+    }
+
+    .informationIcon {
+      marge: ;
+    }
+
+    .offTotalSum {
+      margin-left: -20px;
+      margin-right: 20px;
+
+    }
+
+    .sumDoublePoint {
+      margin-right: -20px;
+    }
+  </style>
+</head>
+
+
+<body>
+
+  <section id="logoSection">
+    <div class="logo-container">
+      <div class="logoImageDBG"><img class="DBGLogo" src='Logo_DBG.png' height="50px"></div>
+      <div class="saveButton-container">
+        <button id="saveButtonID" onclick="printPage()"><img src="PrintToPDF.png" alt="PrintToPDFIcon"></button>
+      </div>
+    </div>
+  </section>
+
+  <section id="resultSection">
+
+
+
+    <div class="resultsContainer">
+      <div class="resultsHeader">
+        <p class="textTotalLevvr"><img height="13px" src="Levvr-icon.ico"> Levvr:</p>
+        <div class="scoreTotalLevvr" id="totalScoreLevvrDisplay">0%</div>
+      </div>
+      <div class="resultsHeader">
+        <p class="textTotalR6"><img height="13px" src="relatics-logo-klein.png"> Relatics 6:</p>
+        <div class="scoreTotalR6" id="totalScoreR6Display">0%</div>
+      </div>
+      <div class="resultsHeader">
+        <p class="textTotalR5"><img height="13px" src="relatics-logo-klein.png"> Relatics 5:</p>
+        <div class="scoreTotalR5" id="totalScoreR5Display">0%</div>
+      </div>
+    </div>
+
+
+    <div class="result_reset">
+      <div class="runButton-container">
+        <button id="runButtonID" onclick="runButton()">▶ Run</button>
+        <div class="tooltipRun" id="myTooltipRun"><img class="informationIcon" src="exclamationMark.png" height="20px">
+          <span class="tooltiptext" id="tooltipText">Klik op "Run" om je nieuwe resultaat te bekijken!</span>
+        </div>
+      </div>
+      <p class="sumDoublePoint">Sum:</p>
+      <div class="sumtotalcontainer">
+        <div class="sum" id="sum"> 80 </div>
+     <!--   <span id="sumWarning">Pas nou toch op</span> -->
+      </div>
+      <p class="offTotalSum">/ 80</p>
+      <div class="resetButton-container">
+        <button id="resetButtonID" onclick="resetSliderValues()">Reset</button>
+      </div>
+
+    </div>
+
+
+  </section>
+
+  <section id="sliderSection">
+
+    <div class="slider-container">
+      <div class="sliderName-container">
+        Templating
+        <div class="tooltip" id="myTooltip"><img class="informationIcon" src="InformationIcon.png" height="12px">
+          <span class="tooltiptext" id="tooltipText">Mogelijkheid tot uitrol van wijzigingen over meerdere workspaces
+            tegelijk.</span>
+        </div>
+        :
+        <span class="sliderValueWeergave" id="sliderTemp-value">5</span>
+      </div>
+      <div class="button-container">
+        <button class="button-87" onclick="setSliderValue('templating', 'min')">min</button>
+        <button class="button-87" onclick="setSliderValue('templating', -1)">-1</button>
+        <input class="slider" type="range" id="templating-slider" name="Templating" min="0" max="10" value="5">
+        <button class="button-87" onclick="setSliderValue('templating', 1)">+1</button>
+        <button class="button-87" onclick="setSliderValue('templating', 'max')">max</button>
+
+      </div>
+    </div>
+
+    <div class="slider-container">
+      <div class="sliderName-container">
+        Integratie andere tools
+        <div class="tooltip" id="myTooltip"><img class="informationIcon" src="InformationIcon.png" height="12px">
+          <span class="tooltiptext" id="tooltipText">De mogelijkheid tot links leggen met andere software (e.g.
+            connectie met sharepoint).</span>
+        </div>
+        :
+        <span class="sliderValueWeergave" id="sliderInt-value">5</span>
+      </div>
+      <div class="button-container">
+        <button class="button-87" onclick="setSliderValue('integratie', 'min')">min</button>
+        <button class="button-87" onclick="setSliderValue('integratie', -1)">-1</button>
+        <input class="slider" type="range" id="integratie-slider" name="Integratie" min="0" max="10" value="5">
+        <button class="button-87" onclick="setSliderValue('integratie', 1)">+1</button>
+        <button class="button-87" onclick="setSliderValue('integratie', 'max')">max</button>
+      </div>
+    </div>
+
+    <div class="slider-container">
+      <div class="sliderName-container">
+        Reporting
+        <div class="tooltip" id="myTooltip"><img class="informationIcon" src="InformationIcon.png" height="12px">
+          <span class="tooltiptext" id="tooltipText">Het bouwen en genereren van reports. Ook het bouwens van report
+            templates. Hierbij geldt ook gebruiksgemak voor de configurator.</span>
+        </div>
+        :
+        <span class="sliderValueWeergave" id="sliderRep-value">5</span>
+      </div>
+      <div class="button-container">
+        <button class="button-87" onclick="setSliderValue('reporting', 'min')">min</button>
+        <button class="button-87" onclick="setSliderValue('reporting', -1)">-1</button>
+        <input class="slider" type="range" id="reporting-slider" name="Reporting" min="0" max="10" value="5">
+        <button class="button-87" onclick="setSliderValue('reporting', 1)">+1</button>
+        <button class="button-87" onclick="setSliderValue('reporting', 'max')">max</button>
+      </div>
+    </div>
+
+    <div class="slider-container">
+      <div class="sliderName-container">
+        Importeren
+        <div class="tooltip" id="myTooltip"><img class="informationIcon" src="InformationIcon.png" height="12px">
+          <span class="tooltiptext" id="tooltipText">Het importeren van data in de software. Bijvoorbeeld vanuit een
+            excel bestand. Vooral belangrijk hier is het gemakt voor de configurator.</span>
+        </div>
+        :
+        <span class="sliderValueWeergave" id="sliderImp-value">5</span>
+      </div>
+      <div class="button-container">
+        <button class="button-87" onclick="setSliderValue('importeren', 'min')">min</button>
+        <button class="button-87" onclick="setSliderValue('importeren', -1)">-1</button>
+        <input class="slider" type="range" id="importeren-slider" name="Importeren" min="0" max="10" value="5">
+        <button class="button-87" onclick="setSliderValue('importeren', 1)">+1</button>
+        <button class="button-87" onclick="setSliderValue('importeren', 'max')">max</button>
+      </div>
+    </div>
+
+    <div class="slider-container">
+      <div class="sliderName-container">
+        Model bouwen (visueel)
+        <div class="tooltip" id="myTooltip"><img class="informationIcon" src="InformationIcon.png" height="12px">
+          <span class="tooltiptext" id="tooltipText">De gebruiksvriendelijkheid voor de configurator om een omgeving
+            samen te stellen en wijzigingen daarin door te voeren. Bijvoorbeeld hoeveel kennis en ervaring is er nodig?
+            Hoe inzichtelijk is het datamodel erachter?</span>
+        </div>
+        :
+        <span class="sliderValueWeergave" id="sliderModVis-value">5</span>
+      </div>
+      <div class="button-container">
+        <button class="button-87" onclick="setSliderValue('modvis', 'min')">min</button>
+        <button class="button-87" onclick="setSliderValue('modvis', -1)">-1</button>
+        <input class="slider" type="range" id="modvis-slider" name="Modvis" min="0" max="10" value="5">
+        <button class="button-87" onclick="setSliderValue('modvis', 1)">+1</button>
+        <button class="button-87" onclick="setSliderValue('modvis', 'max')">max</button>
+      </div>
+    </div>
+
+
+    <div class="slider-container">
+      <div class="sliderName-container">
+        Model bouwen (logica)
+        <div class="tooltip" id="myTooltip"><img class="informationIcon" src="InformationIcon.png" height="12px">
+          <span class="tooltiptext" id="tooltipText"></span>
+        </div>
+        :
+        <span class="sliderValueWeergave" id="sliderModLog-value">5</span>
+      </div>
+      <div class="button-container">
+        <button class="button-87" onclick="setSliderValue('modlog', 'min')">min</button>
+        <button class="button-87" onclick="setSliderValue('modlog', -1)">-1</button>
+        <input class="slider" type="range" id="modlog-slider" name="Modlog" min="0" max="10" value="5">
+        <button class="button-87" onclick="setSliderValue('modlog', 1)">+1</button>
+        <button class="button-87" onclick="setSliderValue('modlog', 'max')">max</button>
+      </div>
+    </div>
+
+    <div class="slider-container">
+      <div class="sliderName-container">
+        Rollen/rechten
+        <div class="tooltip" id="myTooltip"><img class="informationIcon" src="InformationIcon.png" height="12px">
+          <span class="tooltiptext" id="tooltipText">Het toewijzen van rechten van eindgebruikers. Wat krijgen ze te
+            zien? Wat mogen ze bewerken. Hierin geldt ook de configuratievrijheid voor de configurator hiervan.</span>
+        </div>
+        :
+        <span class="sliderValueWeergave" id="sliderRollen-value">5</span>
+      </div>
+      <div class="button-container">
+        <button class="button-87" onclick="setSliderValue('rollen', 'min')">min</button>
+        <button class="button-87" onclick="setSliderValue('rollen', -1)">-1</button>
+        <input class="slider" type="range" id="rollen-slider" name="Rollen" min="0" max="10" value="5">
+        <button class="button-87" onclick="setSliderValue('rollen', 1)">+1</button>
+        <button class="button-87" onclick="setSliderValue('rollen', 'max')">max</button>
+      </div>
+    </div>
+
+    <div class="slider-container">
+      <div class="sliderName-container">
+        Kwaliteitscontrole
+        <div class="tooltip" id="myTooltip"><img class="informationIcon" src="InformationIcon.png" height="12px">
+          <span class="tooltiptext" id="tooltipText">Hoe kun je de data in je omgeving controleren op kwaliteit? Hoe
+            geef je de eindgebruiker de mogelijkheid om deze controles uit te voeren.</span>
+        </div>
+        :
+        <span class="sliderValueWeergave" id="sliderKwaliteit-value">5</span>
+      </div>
+      <div class="button-container">
+        <button class="button-87" onclick="setSliderValue('kwaliteit', 'min')">min</button>
+        <button class="button-87" onclick="setSliderValue('kwaliteit', -1)">-1</button>
+        <input class="slider" type="range" id="kwaliteit-slider" name="Rollen" min="0" max="10" value="5">
+        <button class="button-87" onclick="setSliderValue('kwaliteit', 1)">+1</button>
+        <button class="button-87" onclick="setSliderValue('kwaliteit', 'max')">max</button>
+      </div>
+    </div>
+
+    <div class="slider-container">
+      <div class="sliderName-container">
+        User interface
+        <div class="tooltip" id="myTooltip"><img class="informationIcon" src="InformationIcon.png" height="12px">
+          <span class="tooltiptext" id="tooltipText">Hoe duidelijk is de UI? Hoe zijn tabellen en is data weergegeven?
+            Denk ook aan het gebruik van kleuren etc.</span>
+        </div>
+        :
+        <span class="sliderValueWeergave" id="sliderInterface-value">5</span>
+      </div>
+      <div class="button-container">
+        <button class="button-87" onclick="setSliderValue('interface', 'min')">min</button>
+        <button class="button-87" onclick="setSliderValue('interface', -1)">-1</button>
+        <input class="slider" type="range" id="interface-slider" name="Interface" min="0" max="10" value="5">
+        <button class="button-87" onclick="setSliderValue('interface', 1)">+1</button>
+        <button class="button-87" onclick="setSliderValue('interface', 'max')">max</button>
+      </div>
+    </div>
+
+    <div class="slider-container">
+      <div class="sliderName-container">
+        User experience
+        <div class="tooltip" id="myTooltip"><img class="informationIcon" src="InformationIcon.png" height="12px">
+          <span class="tooltiptext" id="tooltipText">Hoe gebruiksvriendelijk is de user interface voor zowel de
+            eindgebruiker en de configurator.</span>
+        </div>
+        :
+        <span class="sliderValueWeergave" id="sliderUserexp-value">5</span>
+      </div>
+      <div class="button-container">
+        <button class="button-87" onclick="setSliderValue('userexp', 'min')">min</button>
+        <button class="button-87" onclick="setSliderValue('userexp', -1)">-1</button>
+        <input class="slider" type="range" id="userexp-slider" name="Userexp" min="0" max="10" value="5">
+        <button class="button-87" onclick="setSliderValue('userexp', 1)">+1</button>
+        <button class="button-87" onclick="setSliderValue('userexp', 'max')">max</button>
+      </div>
+    </div>
+
+    <div class="slider-container">
+      <div class="sliderName-container">
+        Versiebeheer
+        <div class="tooltip" id="myTooltip"><img class="informationIcon" src="InformationIcon.png" height="12px">
+          <span class="tooltiptext" id="tooltipText">In hoeverre kun je versiebeheer toepassen? Kun je bijvoorbeeld
+            verschillende versies in verschillende omgevingen onderhouden die dezelfde oorspronkelijke eis
+            hebben.</span>
+        </div>
+        :
+        <span class="sliderValueWeergave" id="sliderVersiebeheer-value">5</span>
+      </div>
+      <div class="button-container">
+        <button class="button-87" onclick="setSliderValue('versiebeheer', 'min')">min</button>
+        <button class="button-87" onclick="setSliderValue('versiebeheer', -1)">-1</button>
+        <input class="slider" type="range" id="versiebeheer-slider" name="Versiebeheer" min="0" max="10" value="5">
+        <button class="button-87" onclick="setSliderValue('versiebeheer', 1)">+1</button>
+        <button class="button-87" onclick="setSliderValue('versiebeheer', 'max')">max</button>
+      </div>
+    </div>
+
+    <div class="slider-container">
+      <div class="sliderName-container">
+        Configureervrijheid
+        <div class="tooltip" id="myTooltip"><img class="informationIcon" src="InformationIcon.png" height="12px">
+          <span class="tooltiptext" id="tooltipText">In hoeverre is de configurator beperkt in het bouwen van de
+            omgeving? Hoeveel restricties heeft de software bijvoorbeeld voor grotere complexe vraagstukken.</span>
+        </div>
+        :
+        <span class="sliderValueWeergave" id="sliderConfigureervrijheid-value"> 5</span>
+      </div>
+      <div class="button-container">
+        <button class="button-87" onclick="setSliderValue('configureervrijheid', 'min')">min</button>
+        <button class="button-87" onclick="setSliderValue('configureervrijheid', -1)">-1</button>
+        <input class="slider" type="range" id="configureervrijheid-slider" name="Configureervrijheid" min="0" max="10"
+          value="5">
+        <button class="button-87" onclick="setSliderValue('configureervrijheid', 1)">+1</button>
+        <button class="button-87" onclick="setSliderValue('configureervrijheid', 'max')">max</button>
+      </div>
+    </div>
+
+    <div class="slider-container">
+      <div class="sliderName-container">
+        Ondersteuning
+        <div class="tooltip" id="myTooltip"><img class="informationIcon" src="InformationIcon.png" height="12px">
+          <span class="tooltiptext" id="tooltipText">De support van het softwarebedrijf zelf in geval van bugs en het
+            ontwikkelen van nieuwe features.</span>
+        </div>
+        :
+        <span class="sliderValueWeergave" id="sliderOndersteuning-value">5</span>
+      </div>
+      <div class="button-container">
+
+        <button class="button-87" onclick="setSliderValue('ondersteuning', 'min')">min</button>
+        <button class="button-87" onclick="setSliderValue('ondersteuning', -1)">-1</button>
+        <input class="slider" type="range" id="ondersteuning-slider" name="Ondersteuning" min="0" max="10" value="5">
+        <button class="button-87" onclick="setSliderValue('ondersteuning', 1)">+1</button>
+        <button class="button-87" onclick="setSliderValue('ondersteuning', 'max')">max</button>
+      </div>
+    </div>
+
+    <div class="slider-container">
+      <div class="sliderName-container">
+        Bibliotheek functionaliteit
+        <div class="tooltip" id="myTooltip"><img class="informationIcon" src="InformationIcon.png" height="12px">
+          <span class="tooltiptext" id="tooltipText">In hoeverre kun je een bibliotheek gebruiken binnen het project?
+            Hoe werkt de communicatie tussen de bieb en de project omgevingen?</span>
+        </div>
+        :
+        <span class="sliderValueWeergave" id="sliderBibliotheek-value">5</span>
+      </div>
+      <div class="button-container">
+        <button class="button-87" onclick="setSliderValue('bibliotheek', 'min')">min</button>
+        <button class="button-87" onclick="setSliderValue('bibliotheek', -1)">-1</button>
+        <input class="slider" type="range" id="bibliotheek-slider" name="Bibliotheek" min="0" max="10" value="5">
+        <button class="button-87" onclick="setSliderValue('bibliotheek', 1)">+1</button>
+        <button class="button-87" onclick="setSliderValue('bibliotheek', 'max')">max</button>
+      </div>
+    </div>
+
+    <div class="slider-container">
+      <div class="sliderName-container">
+        Licentie kosten
+        <div class="tooltip" id="myTooltip"><img class="informationIcon" src="InformationIcon.png" height="12px">
+          <span class="tooltiptext" id="tooltipText">De kosten van de software voor de eindgebruiker. Hoe is dit
+            ingeregeld?</span>
+        </div>
+        :
+        <span class="sliderValueWeergave" id="sliderLicentiekosten-value">5</span>
+      </div>
+      <div class="button-container">
+        <button class="button-87" onclick="setSliderValue('licentiekosten', 'min')">min</button>
+        <button class="button-87" onclick="setSliderValue('licentiekosten', -1)">-1</button>
+        <input class="slider" type="range" id="licentiekosten-slider" name="Licentiekosten" min="0" max="10" value="5">
+        <button class="button-87" onclick="setSliderValue('licentiekosten', 1)">+1</button>
+        <button class="button-87" onclick="setSliderValue('licentiekosten', 'max')">max</button>
+      </div>
+    </div>
+
+    <div class="slider-container">
+      <div class="sliderName-container">
+        Workflows
+        <div class="tooltip" id="myTooltip"><img class="informationIcon" src="InformationIcon.png" height="12px">
+          <span class="tooltiptext" id="tooltipText">Het inbouwen en afdwingen van bepaalde processen met
+            stappen.</span>
+        </div>
+        :
+        <span class="sliderValueWeergave" id="sliderWorkflows-value">5</span>
+      </div>
+      <div class="button-container">
+
+        <button class="button-87" onclick="setSliderValue('workflows', 'min')">min</button>
+        <button class="button-87" onclick="setSliderValue('workflows', -1)">-1</button>
+        <input class="slider" type="range" id="workflows-slider" name="Workflows" min="0" max="10" value="5">
+        <button class="button-87" onclick="setSliderValue('workflows', 1)">+1</button>
+        <button class="button-87" onclick="setSliderValue('workflows', 'max')">max</button>
+      </div>
+    </div>
+
+
+  </section>
+
+  <div class="tabelButton-container">
+    <p>Score tabel:</p> <button onclick="toggleTableSection()" id="toggleButton">⮕</button>
+  </div>
+
+  <section id="tableSection">
+    <table class="scoresTable">
+      <thead>
+        <tr>
+          <th class="tg-0thz">KPI</th>
+          <th class="tg-0thz">Levvr</th>
+          <th class="tg-0thz">Relatics 6</th>
+          <th class="tg-0thz">Relatics 5</th>
+          <th class="tg-0thz" id="levvr-score-header">Levvr score</th>
+          <th class="tg-0thz" id="relatics-6-score-header">Relatics 6 score</th>
+          <th class="tg-0thz" id="relatics-5-score-header">Relatics 5 score</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="tg-za14">Templating</td>
+          <td class="tg-za14" id="LevvrTemp">5</td>
+          <td class="tg-za14" id="R6Temp">1</td>
+          <td class="tg-za14" id="R5Temp">7</td>
+          <td class="tg-za14" id="Templating-levvr"></td>
+          <td class="tg-za14" id="Templating-relatics-6"></td>
+          <td class="tg-za14" id="Templating-relatics-5"></td>
+        </tr>
+        <tr>
+          <td class="tg-za14">Integratie andere tools</td>
+          <td class="tg-za14" id="LevvrInt">3</td>
+          <td class="tg-za14" id="R6Int">6</td>
+          <td class="tg-za14" id="R5Int">5</td>
+          <td class="tg-za14" id="IntegratieAndereTools-levvr"></td>
+          <td class="tg-za14" id="IntegratieAndereTools-relatics-6"></td>
+          <td class="tg-za14" id="IntegratieAndereTools-relatics-5"></td>
+        </tr>
+        <tr>
+          <td class="tg-za14">Reporting</td>
+          <td class="tg-za14" id='LevvrRep'>6</td>
+          <td class="tg-za14" id='R6Rep'>6</td>
+          <td class="tg-za14" id='R5Rep'>2</td>
+          <td class="tg-za14" id="Reporting-levvr"></td>
+          <td class="tg-za14" id="Reporting-relatics-6"></td>
+          <td class="tg-za14" id="Reporting-relatics-5"></td>
+        </tr>
+        <tr>
+          <td class="tg-za14">Importeren</td>
+          <td class="tg-za14" id="LevvrImp">5</td>
+          <td class="tg-za14" id="R6Imp">4</td>
+          <td class="tg-za14" id="R5Imp">6</td>
+          <td class="tg-za14" id="Importeren-levvr"></td>
+          <td class="tg-za14" id="Importeren-relatics-6"></td>
+          <td class="tg-za14" id="Importeren-relatics-5"></td>
+        </tr>
+        <tr>
+          <td class="tg-za14">Model bouwen/updaten (visueel)</td>
+          <td class="tg-za14" id="LevvrModVis">7</td>
+          <td class="tg-za14" id="R6ModVis">4</td>
+          <td class="tg-za14" id="R5ModVis">3</td>
+          <td class="tg-za14" id="ModVis-levvr"></td>
+          <td class="tg-za14" id="ModVis-relatics-6"></td>
+          <td class="tg-za14" id="ModVis-relatics-5"></td>
+        </tr>
+        <tr>
+          <td class="tg-za14">Model bouwen/updaten (logica)</td>
+          <td class="tg-za14" id="LevvrModLog">6</td>
+          <td class="tg-za14" id="R6ModLog">7</td>
+          <td class="tg-za14" id="R5ModLog">2</td>
+          <td class="tg-za14" id="ModLog-levvr"></td>
+          <td class="tg-za14" id="ModLog-relatics-6"></td>
+          <td class="tg-za14" id="ModLog-relatics-5"></td>
+        </tr>
+        <tr>
+          <td class="tg-za14">Rollen/rechten</td>
+          <td class="tg-za14" id="LevvrRollen">5</td>
+          <td class="tg-za14" id="R6Rollen">3</td>
+          <td class="tg-za14" id="R5Rollen">7</td>
+          <td class="tg-za14" id="Rollen/rechten-levvr"></td>
+          <td class="tg-za14" id="Rollen/rechten-relatics-6"></td>
+          <td class="tg-za14" id="Rollen/rechten-relatics-5"></td>
+        </tr>
+        <tr>
+          <td class="tg-za14">Kwaliteitscontrole</td>
+          <td class="tg-za14" id="LevvrKwaliteit">4</td>
+          <td class="tg-za14" id="R6Kwaliteit">6</td>
+          <td class="tg-za14" id="R5Kwaliteit">4</td>
+          <td class="tg-za14" id="Kwaliteitscontrole-levvr"></td>
+          <td class="tg-za14" id="Kwaliteitscontrole-relatics-6"></td>
+          <td class="tg-za14" id="Kwaliteitscontrole-relatics-5"></td>
+        </tr>
+        <tr>
+          <td class="tg-za14">User interface</td>
+          <td class="tg-za14" id="LevvrInterface">2</td>
+          <td class="tg-za14" id="R6Interface">6</td>
+          <td class="tg-za14" id="R5Interface">4</td>
+          <td class="tg-za14" id="Userinterface-levvr"></td>
+          <td class="tg-za14" id="Userinterface-relatics-6"></td>
+          <td class="tg-za14" id="Userinterface-relatics-5"></td>
+        </tr>
+        <tr>
+          <td class="tg-za14">User experience</td>
+          <td class="tg-za14" id="LevvrUserexp">4</td>
+          <td class="tg-za14" id="R6Userexp">5</td>
+          <td class="tg-za14" id="R5Userexp">5</td>
+          <td class="tg-za14" id="Userexperience-levvr"></td>
+          <td class="tg-za14" id="Userexperience-relatics-6"></td>
+          <td class="tg-za14" id="Userexperience-relatics-5"></td>
+        </tr>
+        <tr>
+          <td class="tg-za14">Versiebeheer</td>
+          <td class="tg-za14" id="LevvrVersiebeheer">2</td>
+          <td class="tg-za14" id="R6Versiebeheer">2</td>
+          <td class="tg-za14" id="R5Versiebeheer">6</td>
+          <td class="tg-za14" id="Versiebeheer-levvr"></td>
+          <td class="tg-za14" id="Versiebeheer-relatics-6"></td>
+          <td class="tg-za14" id="Versiebeheer-relatics-5"></td>
+        </tr>
+        <tr>
+          <td class="tg-za14">Configureer vrijheid</td>
+          <td class="tg-za14" id="LevvrConfigureervrijheid">4</td>
+          <td class="tg-za14" id="R6Configureervrijheid">1</td>
+          <td class="tg-za14" id="R5Configureervrijheid">6</td>
+          <td class="tg-za14" id="Configureervrijheid-levvr"></td>
+          <td class="tg-za14" id="Configureervrijheid-relatics-6"></td>
+          <td class="tg-za14" id="Configureervrijheid-relatics-5"></td>
+        </tr>
+        <tr>
+          <td class="tg-za14">Ondersteuning</td>
+          <td class="tg-za14" id="LevvrOndersteuning">7</td>
+          <td class="tg-za14" id="R6Ondersteuning">5</td>
+          <td class="tg-za14" id="R5Ondersteuning">4</td>
+          <td class="tg-za14" id="Ondersteuning-levvr"></td>
+          <td class="tg-za14" id="Ondersteuning-relatics-6"></td>
+          <td class="tg-za14" id="Ondersteuning-relatics-5"></td>
+        </tr>
+        <tr>
+          <td class="tg-za14">Bibliotheek functionaliteit</td>
+          <td class="tg-za14" id="LevvrBibliotheek">4</td>
+          <td class="tg-za14" id="R6Bibliotheek">6</td>
+          <td class="tg-za14" id="R5Bibliotheek">6</td>
+          <td class="tg-za14" id="Bibliotheek-levvr"></td>
+          <td class="tg-za14" id="Bibliotheek-relatics-6"></td>
+          <td class="tg-za14" id="Bibliotheek-relatics-5"></td>
+        </tr>
+        <tr>
+          <td class="tg-za14">Licentiekosten</td>
+          <td class="tg-za14" id="LevvrLicentiekosten">3</td>
+          <td class="tg-za14" id="R6Licentiekosten">4</td>
+          <td class="tg-za14" id="R5Licentiekosten">5</td>
+          <td class="tg-za14" id="Licentiekosten-levvr"></td>
+          <td class="tg-za14" id="Licentiekosten-relatics-6"></td>
+          <td class="tg-za14" id="Licentiekosten-relatics-5"></td>
+        </tr>
+        <tr>
+          <td class="tg-za14">Workflows</td>
+          <td class="tg-za14" id="LevvrWorkflows">7</td>
+          <td class="tg-za14" id="R6Workflows">5</td>
+          <td class="tg-za14" id="R5Workflows">6</td>
+          <td class="tg-za14" id="Workflows-levvr"></td>
+          <td class="tg-za14" id="Workflows-relatics-6"></td>
+          <td class="tg-za14" id="Workflows-relatics-5"></td>
+        </tr>
+        <tr>
+          <td class="tg-za14"><strong>Total</strong></td>
+          <td class="tg-za14"></td>
+          <td class="tg-za14"></td>
+          <td class="tg-za14"></td>
+          <td class="tg-za14" id="Total-levvr"><strong>0</strong></td>
+          <td class="tg-za14" id="Total-relatics-6"><strong><span class="tableTotal"
+                id="tableTotal-relatics-6">0</span></strong></td>
+          <td class="tg-za14" id="Total-relatics-5"><strong>0</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <script>
+
+    const maxSum = 80; // Set your maximum allowed sum here
+
+    const templatingSlider = document.getElementById('templating-slider');
+    const integratieSlider = document.getElementById('integratie-slider');
+    const reportingSlider = document.getElementById('reporting-slider');
+    const importerenSlider = document.getElementById('importeren-slider');
+    const modvisSlider = document.getElementById('modvis-slider');
+    const modlogSlider = document.getElementById('modlog-slider');
+    const rollenSlider = document.getElementById('rollen-slider');
+    const kwaliteitSlider = document.getElementById('kwaliteit-slider');
+    const interfaceSlider = document.getElementById('interface-slider');
+    const userexpSlider = document.getElementById('userexp-slider');
+    const versiebeheerSlider = document.getElementById('versiebeheer-slider');
+    const configureervrijheidSlider = document.getElementById('configureervrijheid-slider');
+    const ondersteuningSlider = document.getElementById('ondersteuning-slider');
+    const bibliotheekSlider = document.getElementById('bibliotheek-slider');
+    const licentiekostenSlider = document.getElementById('licentiekosten-slider');
+    const workflowsSlider = document.getElementById('workflows-slider');
+
+    const sliderValueTemp = document.getElementById('sliderTemp-value');
+    const sliderValueInt = document.getElementById('sliderInt-value');
+    const sliderValueRep = document.getElementById('sliderRep-value');
+    const sliderValueImp = document.getElementById('sliderImp-value');
+    const sliderValueModVis = document.getElementById('sliderModVis-value');
+    const sliderValueModLog = document.getElementById('sliderModLog-value');
+    const sliderValueRollen = document.getElementById('sliderRollen-value');
+    const sliderValueKwaliteit = document.getElementById('sliderKwaliteit-value');
+    const sliderValueInterface = document.getElementById('sliderInterface-value');
+    const sliderValueUserexp = document.getElementById('sliderUserexp-value');
+    const sliderValueVersiebeheer = document.getElementById('sliderVersiebeheer-value');
+    const sliderValueConfigureervrijheid = document.getElementById('sliderConfigureervrijheid-value');
+    const sliderValueOndersteuning = document.getElementById('sliderOndersteuning-value');
+    const sliderValueBibliotheek = document.getElementById('sliderBibliotheek-value');
+    const sliderValueLicentiekosten = document.getElementById('sliderLicentiekosten-value');
+    const sliderValueWorkflows = document.getElementById('sliderWorkflows-value');
+
+    const sliderValues = document.querySelectorAll('.sliderValueWeergave');
+
+    const sumElement = document.getElementById('sum');
+
+    const levvrTemp = document.getElementById('LevvrTemp');
+    const levvrTempScore = document.getElementById('Templating-levvr');
+    const R6Temp = document.getElementById('R6Temp');
+    const R6TempScore = document.getElementById('Templating-relatics-6');
+    const R5Temp = document.getElementById('R5Temp');
+    const R5TempScore = document.getElementById('Templating-relatics-5');
+
+    const levvrInt = document.getElementById('LevvrInt');
+    const levvrIntScore = document.getElementById('IntegratieAndereTools-levvr');
+    const R6Int = document.getElementById('R6Int');
+    const R6IntScore = document.getElementById('IntegratieAndereTools-relatics-6');
+    const R5Int = document.getElementById('R5Int');
+    const R5IntScore = document.getElementById('IntegratieAndereTools-relatics-5');
+
+    const levvrRep = document.getElementById('LevvrRep');
+    const levvrRepScore = document.getElementById('Reporting-levvr');
+    const R6Rep = document.getElementById('R6Rep');
+    const R6RepScore = document.getElementById('Reporting-relatics-6');
+    const R5Rep = document.getElementById('R5Rep');
+    const R5RepScore = document.getElementById('Reporting-relatics-5');
+
+    const levvrImp = document.getElementById('LevvrImp');
+    const levvrImpScore = document.getElementById('Importeren-levvr');
+    const R6Imp = document.getElementById('R6Imp');
+    const R6ImpScore = document.getElementById('Importeren-relatics-6');
+    const R5Imp = document.getElementById('R5Imp');
+    const R5ImpScore = document.getElementById('Importeren-relatics-5');
+
+    const levvrModVis = document.getElementById('LevvrModVis');
+    const levvrModVisScore = document.getElementById('ModVis-levvr');
+    const R6Modvis = document.getElementById('R6ModVis');
+    const R6ModvisScore = document.getElementById('ModVis-relatics-6');
+    const R5Modvis = document.getElementById('R5ModVis');
+    const R5ModvisScore = document.getElementById('ModVis-relatics-5');
+
+    const levvrModLog = document.getElementById('LevvrModLog');
+    const levvrModLogScore = document.getElementById('ModLog-levvr');
+    const R6Modlog = document.getElementById('R6ModLog');
+    const R6ModlogScore = document.getElementById('ModLog-relatics-6');
+    const R5Modlog = document.getElementById('R5ModLog');
+    const R5ModlogScore = document.getElementById('ModLog-relatics-5');
+
+    const levvrRollen = document.getElementById('LevvrRollen');
+    const levvrRollenScore = document.getElementById('Rollen/rechten-levvr');
+    const R6Rollen = document.getElementById('R6Rollen');
+    const R6RollenScore = document.getElementById('Rollen/rechten-relatics-6');
+    const R5Rollen = document.getElementById('R5Rollen');
+    const R5RollenScore = document.getElementById('Rollen/rechten-relatics-5');
+
+    const levvrKwaliteit = document.getElementById('LevvrKwaliteit');
+    const levvrKwaliteitScore = document.getElementById('Kwaliteitscontrole-levvr');
+    const R6Kwaliteit = document.getElementById('R6Kwaliteit');
+    const R6KwaliteitScore = document.getElementById('Kwaliteitscontrole-relatics-6');
+    const R5Kwaliteit = document.getElementById('R5Kwaliteit');
+    const R5KwaliteitScore = document.getElementById('Kwaliteitscontrole-relatics-5');
+
+    const levvrInterface = document.getElementById('LevvrInterface');
+    const levvrInterfaceScore = document.getElementById('Userinterface-levvr');
+    const R6Interface = document.getElementById('R6Interface');
+    const R6InterfaceScore = document.getElementById('Userinterface-relatics-6');
+    const R5Interface = document.getElementById('R5Interface');
+    const R5InterfaceScore = document.getElementById('Userinterface-relatics-5');
+
+    const levvrUserexp = document.getElementById('LevvrUserexp');
+    const levvrUserexpScore = document.getElementById('Userexperience-levvr');
+    const R6Userexp = document.getElementById('R6Userexp');
+    const R6UserexpScore = document.getElementById('Userexperience-relatics-6');
+    const R5Userexp = document.getElementById('R5Userexp');
+    const R5UserexpScore = document.getElementById('Userexperience-relatics-5');
+
+    const LevvrVersiebeheer = document.getElementById('LevvrVersiebeheer');
+    const LevvrVersiebeheerScore = document.getElementById('Versiebeheer-levvr');
+    const R6Versiebeheer = document.getElementById('R6Versiebeheer');
+    const R6VersiebeheerScore = document.getElementById('Versiebeheer-relatics-6');
+    const R5Versiebeheer = document.getElementById('R5Versiebeheer');
+    const R5VersiebeheerScore = document.getElementById('Versiebeheer-relatics-5');
+
+    const levvrConfigureervrijheid = document.getElementById('LevvrConfigureervrijheid');
+    const levvrConfigureervrijheidScore = document.getElementById('Configureervrijheid-levvr');
+    const R6Configureervrijheid = document.getElementById('R6Configureervrijheid');
+    const R6ConfigureervrijheidScore = document.getElementById('Configureervrijheid-relatics-6');
+    const R5Configureervrijheid = document.getElementById('R5Configureervrijheid');
+    const R5ConfigureervrijheidScore = document.getElementById('Configureervrijheid-relatics-5');
+
+    const levvrOndersteuning = document.getElementById('LevvrOndersteuning');
+    const levvrOndersteuningScore = document.getElementById('Ondersteuning-levvr');
+    const R6Ondersteuning = document.getElementById('R6Ondersteuning');
+    const R6OndersteuningScore = document.getElementById('Ondersteuning-relatics-6');
+    const R5Ondersteuning = document.getElementById('R5Ondersteuning');
+    const R5OndersteuningScore = document.getElementById('Ondersteuning-relatics-5');
+
+    const levvrBibliotheek = document.getElementById('LevvrBibliotheek');
+    const levvrBibliotheekScore = document.getElementById('Bibliotheek-levvr');
+    const R6Bibliotheek = document.getElementById('R6Bibliotheek');
+    const R6BibliotheekScore = document.getElementById('Bibliotheek-relatics-6');
+    const R5Bibliotheek = document.getElementById('R5Bibliotheek');
+    const R5BibliotheekScore = document.getElementById('Bibliotheek-relatics-5');
+
+    const levvrLicentiekosten = document.getElementById('LevvrLicentiekosten');
+    const levvrLicentiekostenScore = document.getElementById('Licentiekosten-levvr');
+    const R6Licentiekosten = document.getElementById('R6Licentiekosten');
+    const R6LicentiekostenScore = document.getElementById('Licentiekosten-relatics-6');
+    const R5Licentiekosten = document.getElementById('R5Licentiekosten');
+    const R5LicentiekostenScore = document.getElementById('Licentiekosten-relatics-5');
+
+    const levvrWorkflows = document.getElementById('LevvrWorkflows');
+    const levvrWorkflowsScore = document.getElementById('Workflows-levvr');
+    const R6Workflows = document.getElementById('R6Workflows');
+    const R6WorkflowsScore = document.getElementById('Workflows-relatics-6');
+    const R5Workflows = document.getElementById('R5Workflows');
+    const R5WorkflowsScore = document.getElementById('Workflows-relatics-5');
+
+
+
+    function sumTotal() {
+      const sum = parseInt(templatingSlider.value) + parseInt(integratieSlider.value) + parseInt(reportingSlider.value) + parseInt(importerenSlider.value) + parseInt(modvisSlider.value) + parseInt(modlogSlider.value) + parseInt(rollenSlider.value) + parseInt(kwaliteitSlider.value) + parseInt(interfaceSlider.value) + parseInt(userexpSlider.value) + parseInt(versiebeheerSlider.value) + parseInt(configureervrijheidSlider.value) + parseInt(ondersteuningSlider.value) + parseInt(bibliotheekSlider.value) + parseInt(licentiekostenSlider.value) + parseInt(workflowsSlider.value);
+      sumElement.textContent = sum;
+      const sumWarning = document.getElementById('sumWarning');
+      if (sum < maxSum || sum > maxSum) {
+        sumElement.style.color = 'red';
+        //sumWarning.style.display = 'block';
+      }
+      else {
+        sumElement.style.color = 'black';
+       // sumWarning.style.display = 'none';
+      };
+      return sum;
+    }
+
+    function setSliderValue(sliderName, change) {
+      let slider;
+      if (sliderName === 'templating') {
+        slider = templatingSlider;
+      } else if (sliderName === 'integratie') {
+        slider = integratieSlider;
+      } else if (sliderName === 'reporting') {
+        slider = reportingSlider;
+      } else if (sliderName === 'importeren') {
+        slider = importerenSlider;
+      } else if (sliderName === 'modvis') {
+        slider = modvisSlider;
+      } else if (sliderName === 'modlog') {
+        slider = modlogSlider;
+      } else if (sliderName === 'rollen') {
+        slider = rollenSlider;
+      } else if (sliderName === 'kwaliteit') {
+        slider = kwaliteitSlider;
+      } else if (sliderName === 'interface') {
+        slider = interfaceSlider;
+      } else if (sliderName === 'userexp') {
+        slider = userexpSlider;
+      } else if (sliderName === 'versiebeheer') {
+        slider = versiebeheerSlider;
+      } else if (sliderName === 'configureervrijheid') {
+        slider = configureervrijheidSlider;
+      } else if (sliderName === 'ondersteuning') {
+        slider = ondersteuningSlider;
+      } else if (sliderName === 'bibliotheek') {
+        slider = bibliotheekSlider;
+      } else if (sliderName === 'licentiekosten') {
+        slider = licentiekostenSlider;
+      } else if (sliderName === 'workflows') {
+        slider = workflowsSlider;
+      }
+
+      let currentValue = parseInt(slider.value);
+      if (change === 'min') {
+        slider.value = slider.min;
+      } else if (change === 'max') {
+        slider.value = currentValue + (maxSum - sumTotal());
+      } else {
+        let newValue = currentValue + change;
+        if (sumTotal() > maxSum) {
+          currentValue;
+        }
+        else if (change === 1 && sumTotal() === maxSum) {
+          currentValue;
+        }
+        else if (newValue >= slider.min && newValue <= slider.max) {
+          slider.value = newValue;
+        }
+
+      }
+      updateSliderValues();
+      // resetScoreDisplays();
+      //resetDisplayColors();
+      hideTooltip();
+
+    }
+
+
+    templatingSlider.addEventListener('input', updateSliderValues);
+    integratieSlider.addEventListener('input', updateSliderValues);
+    reportingSlider.addEventListener('input', updateSliderValues);
+    importerenSlider.addEventListener('input', updateSliderValues);
+    modvisSlider.addEventListener('input', updateSliderValues);
+    modlogSlider.addEventListener('input', updateSliderValues);
+    rollenSlider.addEventListener('input', updateSliderValues);
+    kwaliteitSlider.addEventListener('input', updateSliderValues);
+    interfaceSlider.addEventListener('input', updateSliderValues);
+    userexpSlider.addEventListener('input', updateSliderValues);
+    versiebeheerSlider.addEventListener('input', updateSliderValues);
+    configureervrijheidSlider.addEventListener('input', updateSliderValues);
+    ondersteuningSlider.addEventListener('input', updateSliderValues);
+    bibliotheekSlider.addEventListener('input', updateSliderValues);
+    licentiekostenSlider.addEventListener('input', updateSliderValues);
+    workflowsSlider.addEventListener('input', updateSliderValues);
+
+
+    updateSliderValues();
+
+
+
+
+    function updateSliderValues() {
+
+
+      sliderValueTemp.textContent = templatingSlider.value;
+      sliderValueInt.textContent = integratieSlider.value;
+      sliderValueRep.textContent = reportingSlider.value;
+      sliderValueImp.textContent = importerenSlider.value;
+      sliderValueModVis.textContent = modvisSlider.value;
+      sliderValueModLog.textContent = modlogSlider.value;
+      sliderValueRollen.textContent = rollenSlider.value;
+      sliderValueKwaliteit.textContent = kwaliteitSlider.value;
+      sliderValueInterface.textContent = interfaceSlider.value;
+      sliderValueUserexp.textContent = userexpSlider.value;
+      sliderValueVersiebeheer.textContent = versiebeheerSlider.value;
+      sliderValueConfigureervrijheid.textContent = configureervrijheidSlider.value;
+      sliderValueOndersteuning.textContent = ondersteuningSlider.value;
+      sliderValueBibliotheek.textContent = bibliotheekSlider.value;
+      sliderValueLicentiekosten.textContent = licentiekostenSlider.value;
+      sliderValueWorkflows.textContent = workflowsSlider.value;
+
+
+      levvrTempScore.textContent = templatingSlider.value / 80 * parseInt(levvrTemp.textContent);
+      R6TempScore.textContent = templatingSlider.value / 80 * parseInt(R6Temp.textContent);
+      R5TempScore.textContent = templatingSlider.value / 80 * parseInt(R5Temp.textContent);
+
+      levvrIntScore.textContent = integratieSlider.value / 80 * parseInt(levvrInt.textContent);
+      R6IntScore.textContent = integratieSlider.value / 80 * parseInt(R6Int.textContent);
+      R5IntScore.textContent = integratieSlider.value / 80 * parseInt(R5Int.textContent);
+
+      levvrRepScore.textContent = reportingSlider.value / 80 * parseInt(levvrRep.textContent);
+      R6RepScore.textContent = reportingSlider.value / 80 * parseInt(R6Rep.textContent);
+      R5RepScore.textContent = reportingSlider.value / 80 * parseInt(R5Rep.textContent);
+
+      levvrImpScore.textContent = importerenSlider.value / 80 * parseInt(levvrImp.textContent);
+      R6ImpScore.textContent = importerenSlider.value / 80 * parseInt(R6Imp.textContent);
+      R5ImpScore.textContent = importerenSlider.value / 80 * parseInt(R5Imp.textContent);
+
+      levvrModVisScore.textContent = modvisSlider.value / 80 * parseInt(levvrModVis.textContent);
+      R6ModvisScore.textContent = modvisSlider.value / 80 * parseInt(R6Modvis.textContent);
+      R5ModvisScore.textContent = modvisSlider.value / 80 * parseInt(R5Modvis.textContent);
+
+      levvrModLogScore.textContent = modlogSlider.value / 80 * parseInt(levvrModLog.textContent);
+      R6ModlogScore.textContent = modlogSlider.value / 80 * parseInt(R6Modlog.textContent);
+      R5ModlogScore.textContent = modlogSlider.value / 80 * parseInt(R5Modlog.textContent);
+
+      levvrRollenScore.textContent = rollenSlider.value / 80 * parseInt(levvrRollen.textContent);
+      R6RollenScore.textContent = rollenSlider.value / 80 * parseInt(R6Rollen.textContent);
+      R5RollenScore.textContent = rollenSlider.value / 80 * parseInt(R5Rollen.textContent);
+
+      levvrKwaliteitScore.textContent = kwaliteitSlider.value / 80 * parseInt(levvrKwaliteit.textContent);
+      R6KwaliteitScore.textContent = kwaliteitSlider.value / 80 * parseInt(R6Kwaliteit.textContent);
+      R5KwaliteitScore.textContent = kwaliteitSlider.value / 80 * parseInt(R5Kwaliteit.textContent);
+
+      levvrInterfaceScore.textContent = interfaceSlider.value / 80 * parseInt(levvrInterface.textContent);
+      R6InterfaceScore.textContent = interfaceSlider.value / 80 * parseInt(R6Interface.textContent);
+      R5InterfaceScore.textContent = interfaceSlider.value / 80 * parseInt(R5Interface.textContent);
+
+      levvrUserexpScore.textContent = userexpSlider.value / 80 * parseInt(levvrUserexp.textContent);
+      R6UserexpScore.textContent = userexpSlider.value / 80 * parseInt(R6Userexp.textContent);
+      R5UserexpScore.textContent = userexpSlider.value / 80 * parseInt(R5Userexp.textContent);
+
+      LevvrVersiebeheerScore.textContent = versiebeheerSlider.value / 80 * parseInt(LevvrVersiebeheer.textContent);
+      R6VersiebeheerScore.textContent = versiebeheerSlider.value / 80 * parseInt(R6Versiebeheer.textContent);
+      R5VersiebeheerScore.textContent = versiebeheerSlider.value / 80 * parseInt(R5Versiebeheer.textContent);
+
+      levvrConfigureervrijheidScore.textContent = configureervrijheidSlider.value / 80 * parseInt(levvrConfigureervrijheid.textContent);
+      R6ConfigureervrijheidScore.textContent = configureervrijheidSlider.value / 80 * parseInt(R6Configureervrijheid.textContent);
+      R5ConfigureervrijheidScore.textContent = configureervrijheidSlider.value / 80 * parseInt(R5Configureervrijheid.textContent);
+
+      levvrOndersteuningScore.textContent = ondersteuningSlider.value / 80 * parseInt(levvrOndersteuning.textContent);
+      R6OndersteuningScore.textContent = ondersteuningSlider.value / 80 * parseInt(R6Ondersteuning.textContent);
+      R5OndersteuningScore.textContent = ondersteuningSlider.value / 80 * parseInt(R5Ondersteuning.textContent);
+
+      levvrBibliotheekScore.textContent = bibliotheekSlider.value / 80 * parseInt(levvrBibliotheek.textContent);
+      R6BibliotheekScore.textContent = bibliotheekSlider.value / 80 * parseInt(R6Bibliotheek.textContent);
+      R5BibliotheekScore.textContent = bibliotheekSlider.value / 80 * parseInt(R5Bibliotheek.textContent);
+
+      levvrLicentiekostenScore.textContent = licentiekostenSlider.value / 80 * parseInt(levvrLicentiekosten.textContent);
+      R6LicentiekostenScore.textContent = licentiekostenSlider.value / 80 * parseInt(R6Licentiekosten.textContent);
+      R5LicentiekostenScore.textContent = licentiekostenSlider.value / 80 * parseInt(R5Licentiekosten.textContent);
+
+      levvrWorkflowsScore.textContent = workflowsSlider.value / 80 * parseInt(levvrWorkflows.textContent);
+      R6WorkflowsScore.textContent = workflowsSlider.value / 80 * parseInt(R6Workflows.textContent);
+      R5WorkflowsScore.textContent = workflowsSlider.value / 80 * parseInt(R5Workflows.textContent);
+
+      //calculateColumnTotals();
+      // displayCellValue();
+      sumTotal();
+      resetScoreDisplays();
+      hideTooltip();
+      // winColorChange();
+    }
+
+
+    // Onderstaand is om de sliders te restricten \/  
+    var sliders = [templatingSlider, integratieSlider, reportingSlider, importerenSlider, modvisSlider, modlogSlider, rollenSlider, kwaliteitSlider, interfaceSlider, userexpSlider, versiebeheerSlider, configureervrijheidSlider, ondersteuningSlider, bibliotheekSlider, licentiekostenSlider, workflowsSlider];
+
+    var lastValidValues = sliders.map(slider => parseInt(slider.value));
+
+    sliders.forEach((slider, index) => {
+      slider.oninput = function () {
+        var newValue = parseInt(this.value);
+        var totalSum = sumTotal();
+
+        if (totalSum <= maxSum) {
+          lastValidValues[index] = newValue;
+        } else {
+          this.value = lastValidValues[index];
+        }
+
+        updateSliderValues();
+      }
+    });
+
+
+
+    function resetSliderValues() {
+
+      templatingSlider.value = 5;
+      integratieSlider.value = 5;
+      reportingSlider.value = 5;
+      importerenSlider.value = 5;
+      modvisSlider.value = 5;
+      modlogSlider.value = 5;
+      rollenSlider.value = 5;
+      kwaliteitSlider.value = 5;
+      interfaceSlider.value = 5;
+      userexpSlider.value = 5;
+      versiebeheerSlider.value = 5;
+      configureervrijheidSlider.value = 5;
+      ondersteuningSlider.value = 5;
+      bibliotheekSlider.value = 5;
+      licentiekostenSlider.value = 5;
+      workflowsSlider.value = 5;
+
+      resetScoreDisplays2();
+      updateSliderValues();
+      resetTotalTableScores();
+      winColorChange();
+      hideTooltip();
+
+
+    }
+
+    function resetTotalTableScores() {
+      document.getElementById('Total-levvr').textContent = 0;
+      document.getElementById('Total-relatics-6').textContent = 0;
+      document.getElementById('Total-relatics-5').textContent = 0;
+    }
+
+
+
+    // Initialize the values on load
+
+    updateSliderValues();
+
+
+    function calculateColumnTotals() {
+      // Select all rows except the last one (which is the Total row)
+      const rows = document.querySelectorAll('.scoresTable tbody tr');
+      const totals = [0, 0, 0];
+
+
+      rows.forEach((row, rowIndex) => {
+        // Skip the last row which is the Total row
+        if (rowIndex < rows.length - 1) {
+          const cells = row.querySelectorAll('td');
+          totals[0] += parseFloat(cells[4].textContent) || 0;
+          totals[1] += parseFloat(cells[5].textContent) || 0;
+          totals[2] += parseFloat(cells[6].textContent) || 0;
+        }
+      });
+      document.getElementById('Total-levvr').textContent = totals[0];
+      document.getElementById('Total-relatics-6').textContent = totals[1];
+      document.getElementById('Total-relatics-5').textContent = totals[2];
+
+      hideTooltip();
+    }
+
+
+
+
+    function displayCellValue() {
+      const totalOfTotals = parseFloat(document.getElementById('Total-levvr').textContent) + parseFloat(document.getElementById('Total-relatics-6').textContent) + parseFloat(document.getElementById('Total-relatics-5').textContent);
+
+      // Get the table cell value
+      const cellValueLevvr = parseFloat(document.getElementById('Total-levvr').textContent);
+      const cellValueR6 = parseFloat(document.getElementById('Total-relatics-6').textContent);
+      const cellValueR5 = parseFloat(document.getElementById('Total-relatics-5').textContent);
+
+      const roundedLevvr = cellValueLevvr / totalOfTotals * 100;
+      const roundedR6 = cellValueR6 / totalOfTotals * 100;
+      const roundedR5 = cellValueR5 / totalOfTotals * 100;
+
+
+      // Set the cell value elsewhere in the HTML
+      document.getElementById('totalScoreLevvrDisplay').textContent = roundedLevvr.toFixed(2) + '%';
+      document.getElementById('totalScoreR6Display').textContent = roundedR6.toFixed(2) + '%';
+      document.getElementById('totalScoreR5Display').textContent = roundedR5.toFixed(2) + '%';
+
+    }
+
+    function runButton() {
+      const tooltip = document.getElementById('myTooltipRun');
+
+      if (sumTotal() === maxSum) {
+        calculateColumnTotals();
+        displayCellValue();
+        winColorChange();
+
+      } else {
+        alert("Dikke lul drie bier.");
+      }
+
+      tooltip.style.display = 'none';
+
+    }
+
+
+    function resetScoreDisplays() {
+
+      if (sumTotal() < maxSum) {
+        //resetScoreDisplays2();
+        //resetDisplayColors();
+      }
+    }
+
+    function resetScoreDisplays2() {
+      document.getElementById('totalScoreLevvrDisplay').textContent = '0%';
+      document.getElementById('totalScoreR6Display').textContent = '0%';
+      document.getElementById('totalScoreR5Display').textContent = '0%';
+
+    }
+
+    // Call the function on page load
+    // window.onload = displayCellValue;
+
+
+
+    // Call the function to calculate totals when the page loads
+    // calculateColumnTotals();
+
+    updateSliderValues();
+
+
+    function winColorChange() {
+
+      const levvrScoreTotal = document.getElementById('totalScoreLevvrDisplay');
+      const R6ScoreTotal = document.getElementById('totalScoreR6Display');
+      const R5ScoreTotal = document.getElementById('totalScoreR5Display');
+
+      const cellValueLevvr = parseFloat(document.getElementById('Total-levvr').textContent);
+      const cellValueR6 = parseFloat(document.getElementById('Total-relatics-6').textContent);
+      const cellValueR5 = parseFloat(document.getElementById('Total-relatics-5').textContent);
+
+      // **Set default classes first**
+      levvrScoreTotal.className = 'scoreTotalLevvr';
+      R6ScoreTotal.className = 'scoreTotalR6';
+      R5ScoreTotal.className = 'scoreTotalR5';
+
+
+
+
+      // Use an if statement to change the class
+      if (cellValueLevvr > cellValueR6 && cellValueLevvr > cellValueR5) {
+        levvrScoreTotal.className = 'scoreTotalLevvrWin';
+      }
+
+      if (cellValueR6 > cellValueR5 && cellValueR6 > cellValueLevvr) {
+        R6ScoreTotal.className = 'scoreTotalR6Win';
+      }
+
+      if (cellValueR5 > cellValueR6 && cellValueR5 > cellValueLevvr) {
+        R5ScoreTotal.className = 'scoreTotalR5Win';
+      }
+
+    }
+
+
+    function resetDisplayColors() {
+      // **Set default classes first**
+      const levvrScoreTotal = document.getElementById('totalScoreLevvrDisplay');
+      const R6ScoreTotal = document.getElementById('totalScoreR6Display');
+      const R5ScoreTotal = document.getElementById('totalScoreR5Display');
+
+      levvrScoreTotal.className = 'scoreTotalLevvr';
+      R6ScoreTotal.className = 'scoreTotalR6';
+      R5ScoreTotal.className = 'scoreTotalR5';
+    }
+
+    resetDisplayColors()
+
+    //window.onload = winColorChange;
+
+    //script voor uitklappen tabel \/
+
+    function toggleTableSection() {
+      var section = document.getElementById('tableSection');
+      var buttonText = document.getElementById('toggleButton');
+      if (section.style.display === 'none' || section.style.display === '') {
+        section.style.display = 'block';
+        buttonText.textContent = '⬇'; // Change the button text to an downward arrow 
+      } else {
+        section.style.display = 'none';
+        buttonText.textContent = '⮕'; // Change the button text to a sideward arrow
+      }
+    }
+
+    // Clear inline styles before printing, but preserve the current state
+    window.addEventListener('beforeprint', () => {
+      var section = document.getElementById('tableSection');
+      section.dataset.originalDisplay = section.style.display;
+      section.style.display = '';
+    });
+
+    // Restore the original state after printing
+    window.addEventListener('afterprint', () => {
+      var section = document.getElementById('tableSection');
+      if (section.dataset.originalDisplay) {
+        section.style.display = section.dataset.originalDisplay;
+        delete section.dataset.originalDisplay;
+      }
+    });
+
+    function printPage() {
+      window.print();
+    }
+
+
+    function hideTooltip() {
+      const tooltip = document.getElementById('myTooltipRun');
+      const tableTotalLevvr = document.getElementById('Total-levvr').textContent;
+      const tableTotalR6 = document.getElementById('Total-relatics-6').textContent;
+      const tableTotalR5 = document.getElementById('Total-relatics-5').textContent;
+
+
+      if (tableTotalLevvr == 0 && tableTotalR6 == 0 && tableTotalR5 == 0) {
+        tooltip.style.display = 'block';
+      } else if (sumTotal() == maxSum && tableTotalLevvr > 0 && tableTotalR6 > 0 && tableTotalR5 > 0) {
+        tooltip.style.display = 'block';
+      } else {
+        tooltip.style.display = 'none';
+      }
+
+
+    }
+    updateFormValues()
+
+    function updateFormValues() {
+      const formValue = localStorage.getItem('sliderValue');
+
+      if (formValue) {
+        templatingSlider.value = formValue;
+        reportingSlider.value = formValue;
+      }
+      updateSliderValues();
+    }
+
+  </script>
+
+</body>
+
+</html>
